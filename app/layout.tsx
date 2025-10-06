@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "./globals.css";
-import { SessionProvider, SyncUserWithStore } from "@/app/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,9 +22,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={className}>
-        <SessionProvider>{children}</SessionProvider>
-      </body>
+      <body className={className}>{children}</body>
     </html>
   );
 }

@@ -1,1 +1,5 @@
-export { handler as GET, handler as POST } from "@/shared/api/auth";
+import { toNextJsHandler } from "better-auth/next-js";
+
+import { auth } from "@/shared/lib";
+
+export const { POST, GET } = toNextJsHandler(auth);

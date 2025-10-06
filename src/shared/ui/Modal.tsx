@@ -4,6 +4,8 @@ import { clsx } from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 
+import { Close } from "@/shared/icons";
+
 export const Modal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -54,6 +56,15 @@ export const Modal: React.FC<{
             transition={{ duration: 0.3 }}
           >
             <div className={className}>
+              <button
+                onClick={onClose}
+                className="absolute top-4 bg-white rounded-full right-3 p-2"
+              >
+                <span className="text-2xl text-brightNavy">
+                  <Close />
+                </span>
+              </button>
+
               <div className={contentClassName} onClick={handleModalClick}>
                 {children}
               </div>

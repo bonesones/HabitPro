@@ -1,62 +1,47 @@
 "use client";
 
 import { observer } from "mobx-react-lite";
-import { getSession, signIn, signOut } from "next-auth/react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
 
+import { aFetch } from "@/shared/api/aFetch";
 import { userStore } from "@/shared/store";
+import { Button } from "@/shared/ui";
 
-type FormValues = {
-  email: string;
-  password: string;
-};
+import { AuthModal } from "@/features/auth-modal";
 
 export const DashboardPage = observer(() => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const result = await signIn("credentials", {
-      redirect: false,
-      ...data,
-    });
-
-    if (result?.ok) {
-      const session = await getSession();
-
-      if (!session) {
-        return null;
-      }
-
-      userStore.setUser(session.user);
-    }
+  const handleOpen = () => {
+    setIsOpen(true);
   };
 
-  const handleLogout = () => {
-    signOut();
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleRefresh = async () => {
+    const response = await aFetch("/api/auth/refresh");
+    const responseJson: Response = await response.json();
+
+    if (!response.ok) {
+      return null;
+    }
+
+    console.log(responseJson);
   };
 
   return (
     <div>
       <h1>Your Habits</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="email" {...register("email")} placeholder="Email" />
+      <Button onClick={handleOpen}>Login</Button>
 
-        <input
-          type="password"
-          {...register("password")}
-          placeholder="Password"
-        />
+      <Button onClick={handleRefresh}>Refresh</Button>
 
-        <button type="submit">Login</button>
-      </form>
+      <AuthModal isOpen={isOpen} onClose={handleClose} />
 
-      <p>ID: {userStore.user?.id}</p>
-      <p>Email: {userStore.user?.email}</p>
-
-      <button type="button" onClick={handleLogout}>
-        Log out
-      </button>
+      {userStore.user?.email ?? "Not logged in"}
     </div>
   );
 });

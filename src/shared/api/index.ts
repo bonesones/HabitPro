@@ -1,1 +1,1 @@
-export { handler } from "./auth";
+export { aFetch } from "./aFetch";

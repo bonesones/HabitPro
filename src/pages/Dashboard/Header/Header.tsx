@@ -1,4 +1,5 @@
-import { Button, Logo } from "@/shared";
+import { Logo } from "@/shared/icons";
+import { Button } from "@/shared/ui";
 
 export const Header: React.FC = () => (
   <div className="py-3 px-4 flex justify-between bg-white shadow">
