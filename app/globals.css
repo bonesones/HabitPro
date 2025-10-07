@@ -3,3 +3,22 @@
 @theme {
   --color-mainBack: #f9fafb;
 }
+
+progress {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Chrome, Safari, Edge */
+progress::-webkit-progress-bar {
+  @apply bg-gray-200 rounded-lg;
+}
+
+progress::-webkit-progress-value {
+  @apply bg-lime-500 rounded-lg transition-all duration-500;
+}
+
+/* Firefox */
+progress::-moz-progress-bar {
+  @apply bg-lime-500 rounded-lg;
+}

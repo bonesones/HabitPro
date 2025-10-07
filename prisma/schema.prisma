@@ -48,9 +48,13 @@ model Habit {
 model HabitLog {
   id Int @id @default(autoincrement())
   habitId Int
+  date DateTime @default(now())
+  done Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   habit Habit @relation(fields: [habitId], references: [id])
+  
+  @@unique([habitId, date])
 }
 
 model Category {

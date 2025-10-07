@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "./globals.css";
+import { CategoriesProvider } from "@/app/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +23,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={className}>{children}</body>
+      <body className={className}>
+        <CategoriesProvider>{children}</CategoriesProvider>
+      </body>
     </html>
   );
 }

@@ -1,47 +1,33 @@
 "use client";
 
-import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useSession } from "@/shared/lib";
+import { Spinner } from "@/shared/ui";
 
-import { aFetch } from "@/shared/api/aFetch";
-import { userStore } from "@/shared/store";
-import { Button } from "@/shared/ui";
+import { Habits } from "./Habits";
 
-import { AuthModal } from "@/features/auth-modal";
+export const DashboardPage = () => {
+  const { data, isPending } = useSession();
 
-export const DashboardPage = observer(() => {
-  const [isOpen, setIsOpen] = useState(false);
+  const user = data?.user;
 
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
+  if (isPending) {
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
+  }
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleRefresh = async () => {
-    const response = await aFetch("/api/auth/refresh");
-    const responseJson: Response = await response.json();
-
-    if (!response.ok) {
-      return null;
-    }
-
-    console.log(responseJson);
-  };
+  if (!user) {
+    return <div>Unauthorized</div>;
+  }
 
   return (
     <div>
       <h1>Your Habits</h1>
+      <h2>User: {user.email}</h2>
 
-      <Button onClick={handleOpen}>Login</Button>
-
-      <Button onClick={handleRefresh}>Refresh</Button>
-
-      <AuthModal isOpen={isOpen} onClose={handleClose} />
-
-      {userStore.user?.email ?? "Not logged in"}
+      <Habits />
     </div>
   );
-});
+};
