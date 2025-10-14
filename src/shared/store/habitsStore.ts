@@ -6,6 +6,7 @@ import { Habit } from "../types";
 export class HabitsStore {
   habits: Habit[] = [];
   loading = false;
+  updatingHabit = new Set<number>();
   error: string | null = null;
 
   constructor() {
@@ -17,12 +18,8 @@ export class HabitsStore {
     this.habits.push(habit);
   }
 
-  getHabits() {
-    return this.habits;
-  }
-
   async markHabitDone(habitId: number) {
-    this.loading = true;
+    this.updatingHabit.add(habitId);
 
     try {
       const response = await aFetch<Habit>(`/api/habits/${habitId}/done`, {
@@ -53,7 +50,7 @@ export class HabitsStore {
       });
     } finally {
       runInAction(() => {
-        this.loading = false;
+        this.updatingHabit.delete(habitId);
       });
     }
   }
@@ -85,6 +82,10 @@ export class HabitsStore {
         this.loading = false;
       });
     }
+  }
+
+  isHabitUpdating(habitId: number) {
+    return this.updatingHabit.has(habitId);
   }
 }
 

@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <div className="py-3 px-4 flex justify-between bg-white shadow">
+    <div className="py-3 px-4 flex justify-between bg-white shadow h-16">
       <div className="flex items-center gap-2">
         <span className="text-3xl">
           <Logo />

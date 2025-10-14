@@ -11,7 +11,7 @@ export async function GET() {
     const exists = await prisma.habitLog.findFirst({
       where: {
         habitId: habit.id,
-        date: today,
+        date: today.toISOString(),
       },
     });
 

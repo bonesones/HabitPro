@@ -7,6 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-multiline-spacing": "^1.2.0",
+    "lefthook": "^1.13.6",
     "prisma": "^6.16.3",
     "tailwindcss": "^4",
     "tsx": "^4.20.6",

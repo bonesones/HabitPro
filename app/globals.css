@@ -9,16 +9,18 @@ progress {
   appearance: none;
 }
 
-/* Chrome, Safari, Edge */
 progress::-webkit-progress-bar {
   @apply bg-gray-200 rounded-lg;
 }
 
 progress::-webkit-progress-value {
-  @apply bg-lime-500 rounded-lg transition-all duration-500;
+  background-color: currentColor;
+  @apply rounded-full;
+  transition: width 0.3s ease;
 }
 
-/* Firefox */
 progress::-moz-progress-bar {
-  @apply bg-lime-500 rounded-lg;
+  background-color: currentColor;
+  @apply rounded-full;
+  transition: width 0.3s ease;
 }

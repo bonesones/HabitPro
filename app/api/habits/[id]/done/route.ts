@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { prisma, auth } from "@/shared/lib";
+import { prisma } from "@/shared/lib";
+import { auth } from "@/shared/lib/auth.server";
 
 export async function PATCH(
   req: NextRequest,
@@ -9,7 +10,7 @@ export async function PATCH(
   const session = await auth.api.getSession({ headers: req.headers });
   const { id } = await params;
 
-  if (!id) {
+  if (!id || !Number.isInteger(Number(id))) {
     return NextResponse.json(
       { success: false, message: "Invalid request" },
       {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { prisma, auth } from "@/shared/lib";
+import { prisma } from "@/shared/lib";
+import { auth } from "@/shared/lib/auth.server";
 
 export async function POST(req: NextRequest) {
   const {
