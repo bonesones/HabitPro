@@ -1,30 +1,30 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from "@/shared/lib";
-import { auth } from "@/shared/lib/auth.server";
+import { prisma } from '@/shared/lib';
+import { auth } from '@/shared/lib/auth.server';
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await auth.api.getSession({ headers: req.headers });
   const { id } = await params;
 
   if (!id || !Number.isInteger(Number(id))) {
     return NextResponse.json(
-      { success: false, message: "Invalid request" },
+      { success: false, message: 'Invalid request' },
       {
         status: 400,
-      }
+      },
     );
   }
 
   if (!session) {
     return NextResponse.json(
-      { success: false, message: "Unauthorized" },
+      { success: false, message: 'Unauthorized' },
       {
         status: 401,
-      }
+      },
     );
   }
 
@@ -45,10 +45,10 @@ export async function PATCH(
 
   if (!habitLog) {
     return NextResponse.json(
-      { success: false, message: "Failed to mark habit as done" },
+      { success: false, message: 'Failed to mark habit as done' },
       {
         status: 500,
-      }
+      },
     );
   }
 
@@ -72,10 +72,10 @@ export async function PATCH(
 
   if (!habit) {
     return NextResponse.json(
-      { success: false, message: "Failed to find habit" },
+      { success: false, message: 'Failed to find habit' },
       {
         status: 500,
-      }
+      },
     );
   }
 
@@ -83,6 +83,6 @@ export async function PATCH(
     { success: true, data: habit },
     {
       status: 200,
-    }
+    },
   );
 }

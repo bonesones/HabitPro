@@ -1,4 +1,4 @@
-import { Header } from "@/pages/Dashboard";
+import { Header } from '@/pages/Dashboard';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div>

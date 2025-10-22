@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import { prisma } from "@/shared/lib";
+import { prisma } from '@/shared/lib';
 
 export async function GET() {
   const today = new Date();
@@ -29,6 +29,6 @@ export async function GET() {
     { success: true },
     {
       status: 200,
-    }
+    },
   );
 }

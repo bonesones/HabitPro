@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import { prisma } from "@/shared/lib";
+import { prisma } from '@/shared/lib';
 
 export async function GET() {
   const categories = await prisma.category.findMany({
@@ -12,10 +12,10 @@ export async function GET() {
 
   if (!categories) {
     return NextResponse.json(
-      { success: false, message: "Error" },
+      { success: false, message: 'Error' },
       {
         status: 500,
-      }
+      },
     );
   }
 

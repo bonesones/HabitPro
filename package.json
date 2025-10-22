@@ -17,9 +17,9 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
     "import": "^0.0.6",
-    "next": "15.5.4",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.63.0",
     "request-ip": "^3.3.0",
     "zustand": "^5.0.8"

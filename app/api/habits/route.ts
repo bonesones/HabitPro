@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from "@/shared/lib";
-import { auth } from "@/shared/lib/auth.server";
+import { prisma } from '@/shared/lib';
+import { auth } from '@/shared/lib/auth.server';
 
 export async function GET(req: NextRequest) {
   const session = await auth.api.getSession({ headers: req.headers });
 
   if (!session) {
     return NextResponse.json(
-      { success: false, message: "Unauthorized" },
+      { success: false, message: 'Unauthorized' },
       {
         status: 401,
-      }
+      },
     );
   }
 
@@ -35,10 +35,10 @@ export async function GET(req: NextRequest) {
 
   if (!habits) {
     return NextResponse.json(
-      { success: false, message: "Error" },
+      { success: false, message: 'Error' },
       {
         status: 500,
-      }
+      },
     );
   }
 
@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
 
   for (const habit of habits) {
     const hasTodayLog = habit.logs.some(
-      (log) => new Date(log.date).getTime() === today.getTime()
+      log => new Date(log.date).getTime() === today.getTime(),
     );
 
     if (!hasTodayLog) {

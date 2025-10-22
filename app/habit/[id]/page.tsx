@@ -1,1 +1,1 @@
-export { HabitPage as default } from "@/pages/Habit";
+export { HabitPage as default } from '@/pages/Habit';

@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from "@/shared/lib";
+import { prisma } from '@/shared/lib';
 
 export async function POST(req: NextRequest) {
   const { name } = await req.json();
 
   if (!name) {
     return NextResponse.json(
-      { success: false, message: "Invalid request" },
+      { success: false, message: 'Invalid request' },
       {
         status: 400,
-      }
+      },
     );
   }
 
@@ -22,10 +22,10 @@ export async function POST(req: NextRequest) {
 
   if (!category) {
     return NextResponse.json(
-      { success: false, message: "Failed to create category" },
+      { success: false, message: 'Failed to create category' },
       {
         status: 500,
-      }
+      },
     );
   }
 
@@ -33,6 +33,6 @@ export async function POST(req: NextRequest) {
     { success: true, data: category },
     {
       status: 200,
-    }
+    },
   );
 }

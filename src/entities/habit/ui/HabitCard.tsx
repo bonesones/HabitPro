@@ -25,7 +25,7 @@ export const HabitCard: React.FC<{ habit: Habit }> = ({ habit }) => {
     log => log.done && new Date(log.date).getTime() === today.getTime(),
   );
 
-  const doneCountThisWeek = habit.logs.filter(
+  const countDoneThisWeek = habit.logs.filter(
     log =>
       log.done &&
       new Date(log.date).getTime() >= weekAgo.getTime() &&
@@ -47,7 +47,7 @@ export const HabitCard: React.FC<{ habit: Habit }> = ({ habit }) => {
           <p className='text-gray-600'>{habit.goal} times/week</p>
         </div>
 
-        <HabitProgressBar progress={doneCountThisWeek} goal={habit.goal} />
+        <HabitProgressBar progress={countDoneThisWeek} goal={habit.goal} />
 
         <div className='flex justify-between items-center'>
           <span className='text-gray-600'>🔥 {streak} day streak</span>
