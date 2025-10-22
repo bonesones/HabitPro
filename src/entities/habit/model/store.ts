@@ -2,15 +2,15 @@ import { create } from 'zustand';
 
 import { Habit } from './types';
 
-export const useHabitsStore = create<HabitsStore>(set => ({
+export const useHabitsStore = create<HabitsStore>((set, get) => ({
   loading: false,
   error: null,
   updatingHabit: new Set<number>(),
   habits: [],
+  habit: null,
   setLoading: (loading: boolean) => set({ loading }),
 
-  isHabitUpdating: (habitId: number): boolean =>
-    useHabitsStore.getState().updatingHabit.has(habitId),
+  isHabitUpdating: (habitId: number) => get().updatingHabit.has(habitId),
 
   setUpdatingHabit: (habitId: number) =>
     set(state => {
@@ -28,8 +28,12 @@ export const useHabitsStore = create<HabitsStore>(set => ({
       return { updatingHabit: newSet };
     }),
 
+  getHabit: (habitId: number) =>
+    get().habits.find(habit => habit.id === habitId),
+
   setError: (error: string | null) => set({ error }),
   setHabits: (habits: Habit[]) => set({ habits }),
+  setHabit: (habit: Habit) => set({ habit }),
 
   addHabit: (habit: Habit) =>
     set(state => ({ habits: [...state.habits, habit] })),
@@ -40,11 +44,14 @@ type HabitsStore = {
   error: string | null;
   updatingHabit: Set<number>;
   habits: Habit[];
+  habit: Habit | null;
   setLoading: (loading: boolean) => void;
   setUpdatingHabit: (habitId: number) => void;
   isHabitUpdating: (habitId: number) => boolean;
   deleteUpdatingHabit: (habitId: number) => void;
   setError: (error: string | null) => void;
   setHabits: (habits: Habit[]) => void;
+  setHabit: (habit: Habit) => void;
+  getHabit: (habitId: number) => Habit | undefined;
   addHabit: (habit: Habit) => void;
 };

@@ -1,29 +1,20 @@
 import Link from 'next/link';
 
-import { CheckMark } from '@/shared/icons';
 import { calculateStreak } from '@/shared/lib';
-import { Spinner } from '@/shared/ui';
+import { Container } from '@/shared/ui';
 
 import { markHabitDone } from '../model/actions';
-import { useHabitsStore } from '../model/store';
 import { Habit } from '../model/types';
 
+import { HabitMarkDone } from './HabitMarkDone';
 import { HabitProgressBar } from './HabitProgressBar';
 
 export const HabitCard: React.FC<{ habit: Habit }> = ({ habit }) => {
-  const isHabitUpdating = useHabitsStore(state =>
-    state.isHabitUpdating(habit.id),
-  );
-
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const weekAgo = new Date();
   weekAgo.setDate(today.getDate() - 7);
-
-  const isDoneToday = habit.logs.some(
-    log => log.done && new Date(log.date).getTime() === today.getTime(),
-  );
 
   const countDoneThisWeek = habit.logs.filter(
     log =>
@@ -41,7 +32,7 @@ export const HabitCard: React.FC<{ habit: Habit }> = ({ habit }) => {
 
   return (
     <Link href={`/habit/${habit.id}`} className='w-full max-w-96'>
-      <article className='w-full bg-white px-4 py-6 rounded-lg shadow-sm border border-gray-200 flex flex-col gap-3'>
+      <Container>
         <div className='flex justify-between'>
           <h2 className='font-semibold'>{habit.name}</h2>
           <p className='text-gray-600'>{habit.goal} times/week</p>
@@ -52,23 +43,9 @@ export const HabitCard: React.FC<{ habit: Habit }> = ({ habit }) => {
         <div className='flex justify-between items-center'>
           <span className='text-gray-600'>🔥 {streak} day streak</span>
 
-          {isDoneToday ? (
-            <div className='flex gap-2 items-center'>
-              <span className='text-lime-500'>
-                <CheckMark />
-              </span>
-              Done
-            </div>
-          ) : (
-            <button
-              className='bg-lime-500 rounded-md w-24 h-10 text-white cursor-pointer'
-              onClick={handleClickDone}
-            >
-              {isHabitUpdating ? <Spinner className='bg-white' /> : 'Mark done'}
-            </button>
-          )}
+          <HabitMarkDone habit={habit} onClick={handleClickDone} />
         </div>
-      </article>
+      </Container>
     </Link>
   );
 };

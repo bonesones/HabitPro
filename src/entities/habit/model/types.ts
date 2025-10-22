@@ -1,8 +1,9 @@
-import type { Habit as PrismaHabit } from '@/shared/generated/prisma';
+import type { Habit as PrismaHabit, Category } from '@/shared/generated/prisma';
 import type { HabitLog } from '@/shared/types';
 
-export type Habit = Pick<PrismaHabit, 'id' | 'name' | 'categoryId' | 'goal'> & {
+export type Habit = Pick<PrismaHabit, 'id' | 'name' | 'goal'> & {
   logs: HabitLog[];
+  category: Pick<Category, 'id' | 'name'>;
 };
 
-export type NextHabit = Pick<Habit, 'name' | 'categoryId' | 'goal'>;
+export type NextHabit = Pick<PrismaHabit, 'name' | 'categoryId' | 'goal'>;

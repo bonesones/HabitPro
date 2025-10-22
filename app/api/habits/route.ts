@@ -67,8 +67,13 @@ export async function GET(req: NextRequest) {
     select: {
       id: true,
       name: true,
-      categoryId: true,
       goal: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
       logs: {
         select: {
           date: true,

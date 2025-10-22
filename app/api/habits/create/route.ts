@@ -8,15 +8,6 @@ import { NextHabit } from '@/entities/habit/model';
 export async function POST(req: NextRequest) {
   const { name, goal, categoryId } = (await req.json()) as NextHabit;
 
-  if (!name || !goal || !categoryId) {
-    return NextResponse.json(
-      { success: false, message: 'Invalid request' },
-      {
-        status: 400,
-      },
-    );
-  }
-
   const session = await auth.api.getSession({ headers: req.headers });
 
   if (!session) {
@@ -24,6 +15,15 @@ export async function POST(req: NextRequest) {
       { success: false, message: 'Unauthorized' },
       {
         status: 401,
+      },
+    );
+  }
+
+  if (!name || !goal || !categoryId) {
+    return NextResponse.json(
+      { success: false, message: 'Invalid request' },
+      {
+        status: 400,
       },
     );
   }

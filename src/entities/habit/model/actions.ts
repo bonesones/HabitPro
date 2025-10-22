@@ -23,6 +23,26 @@ export const fetchHabits = async () => {
   }
 };
 
+export const fetchHabit = async (habitId: number) => {
+  const store = useHabitsStore.getState();
+  store.setLoading(true);
+
+  try {
+    const response = await aFetch<Habit>(`/api/habits/${habitId}`);
+
+    if (response.success) {
+      store.setError(null);
+      store.setHabit(response.data);
+    } else {
+      store.setError(response.message);
+    }
+  } catch (error) {
+    store.setError(error instanceof Error ? error.message : 'Unknown error');
+  } finally {
+    store.setLoading(false);
+  }
+};
+
 export const createHabit = async (data: NextHabit) => {
   const store = useHabitsStore.getState();
   store.setLoading(true);
@@ -66,6 +86,10 @@ export const markHabitDone = async (habitId: number) => {
 
       store.setError(null);
       store.setHabits(newHabits);
+
+      if (store.habit) {
+        store.setHabit(response.data);
+      }
     } else {
       store.setError(response.message);
     }

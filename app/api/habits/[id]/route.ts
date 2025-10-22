@@ -3,12 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/shared/lib';
 import { auth } from '@/shared/lib/auth.server';
 
-export async function PATCH(
+export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await auth.api.getSession({ headers: req.headers });
-  const { id } = await params;
 
   if (!session) {
     return NextResponse.json(
@@ -19,35 +18,13 @@ export async function PATCH(
     );
   }
 
+  const { id } = await params;
+
   if (!id || !Number.isInteger(Number(id))) {
     return NextResponse.json(
       { success: false, message: 'Invalid request' },
       {
         status: 400,
-      },
-    );
-  }
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const habitLog = await prisma.habitLog.update({
-    where: {
-      habitId_date: {
-        habitId: Number(id),
-        date: today,
-      },
-    },
-    data: {
-      done: true,
-    },
-  });
-
-  if (!habitLog) {
-    return NextResponse.json(
-      { success: false, message: 'Failed to mark habit as done' },
-      {
-        status: 500,
       },
     );
   }
@@ -79,15 +56,10 @@ export async function PATCH(
     return NextResponse.json(
       { success: false, message: 'Failed to find habit' },
       {
-        status: 500,
+        status: 404,
       },
     );
   }
 
-  return NextResponse.json(
-    { success: true, data: habit },
-    {
-      status: 200,
-    },
-  );
+  return NextResponse.json({ success: true, data: habit });
 }
