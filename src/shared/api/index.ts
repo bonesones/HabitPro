@@ -1,1 +1,1 @@
-export { aFetch } from "./aFetch";
+export { aFetch } from './aFetch';

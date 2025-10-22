@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useParams } from "next/navigation";
+import { useParams } from 'next/navigation';
 
 export const HabitPage = () => {
   const params = useParams<{ id: string }>();

@@ -1,8 +1,8 @@
-import { ApiResponse } from "../types";
+import { ApiResponse } from '../types';
 
 export const aFetch = async <T>(
   url: string,
-  init: RequestInit = {}
+  init: RequestInit = {},
 ): Promise<ApiResponse<T>> => {
   const response = await fetch(url, init);
 

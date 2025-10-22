@@ -15,5 +15,5 @@ const isAbsoluteURL = (url: string) =>
   /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
 const combineURLs = (baseURL: string, relativeURL: string) =>
   relativeURL
-    ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "")
+    ? baseURL.replace(/\/?\/$/, '') + '/' + relativeURL.replace(/^\/+/, '')
     : baseURL;

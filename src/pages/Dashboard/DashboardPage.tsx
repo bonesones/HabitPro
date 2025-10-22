@@ -1,39 +1,48 @@
-"use client";
+'use client';
 
-import { observer } from "mobx-react-lite";
+import { useEffect } from 'react';
 
-import { useSession } from "@/shared/lib";
-import { habitsStore } from "@/shared/store";
-import { Spinner } from "@/shared/ui";
+import { useSession } from '@/shared/lib';
+import { Spinner } from '@/shared/ui';
 
-import { Habits } from "./Habits";
+import { useHabitsStore } from '@/entities/habit/model';
+import { fetchHabits } from '@/entities/habit/model/actions';
 
-export const DashboardPage = observer(() => {
+import { Habits } from './Habits';
+
+export const DashboardPage = () => {
   const { data, isPending } = useSession();
+  const isLoading = useHabitsStore(state => state.loading);
 
   const user = data?.user;
+
+  useEffect(() => {
+    if (user) {
+      fetchHabits();
+    }
+  }, [user]);
 
   if (!isPending && !user) {
     return <div>Unauthorized</div>;
   }
 
-  if (isPending || habitsStore.loading) {
+  if (isPending || isLoading) {
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-64px)]">
-        <Spinner className="bg-blue-500 " />
+      <div className='flex justify-center items-center h-[calc(100vh-64px)]'>
+        <Spinner className='bg-blue-500 ' />
       </div>
     );
   }
 
   return (
-    <div className="px-5 h-[calc(100vh-64px)]">
-      <h1 className="font-semibold text-2xl mt-7">Your Habits</h1>
+    <div className='px-5 h-[calc(100vh-64px)]'>
+      <h1 className='font-semibold text-2xl mt-7'>Your Habits</h1>
 
-      <h2 className="mt-2">
+      <h2 className='mt-2'>
         Track your daily progress and build lasting habits
       </h2>
 
       <Habits />
     </div>
   );
-});
+};

@@ -1,17 +1,17 @@
-import { HabitLog } from "../types/api";
+import { HabitLog } from '../types/api';
 
 export const calculateStreak = (logs: HabitLog[]) => {
-  const mappedLogs = logs.map((log) => ({ ...log, date: new Date(log.date) }));
+  const mappedLogs = logs.map(log => ({ ...log, date: new Date(log.date) }));
 
   const sortedLogs = mappedLogs.sort(
-    (a, b) => b.date.getTime() - a.date.getTime()
+    (a, b) => b.date.getTime() - a.date.getTime(),
   );
 
   let streak = 0;
 
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
-  const todayLog = sortedLogs.find((log) => isSameDay(log.date, currentDate));
+  const todayLog = sortedLogs.find(log => isSameDay(log.date, currentDate));
 
   const startDate = new Date(currentDate);
 

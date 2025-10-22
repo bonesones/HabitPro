@@ -1,17 +1,14 @@
-import { observer } from "mobx-react-lite";
+import { useHabitsStore } from '@/entities/habit/model';
+import { HabitCard } from '@/entities/habit/ui';
 
-import { habitsStore } from "@/shared/store";
-
-import { HabitCard } from "./Habit/HabitCard";
-
-export const Habits = observer(() => {
-  const habits = habitsStore.habits;
+export const Habits = () => {
+  const habits = useHabitsStore(state => state.habits);
 
   return (
-    <div className="flex flex-col items-center gap-6 mt-8">
-      {habits.map((habit) => (
+    <div className='flex flex-col items-center gap-6 mt-8'>
+      {habits.map(habit => (
         <HabitCard key={habit.id} habit={habit} />
       ))}
     </div>
   );
-});
+};

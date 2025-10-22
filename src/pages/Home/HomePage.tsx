@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import { Button } from "@/shared/ui";
+import { Button } from '@/shared/ui';
 
-import { AuthModal } from "@/features/auth-modal";
+import { AuthModal } from '@/features/auth';
 
 export const HomePage = () => {
   const [isOpen, setIsOpen] = useState(false);

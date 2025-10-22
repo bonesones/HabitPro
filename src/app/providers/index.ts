@@ -1,1 +1,1 @@
-export { CategoriesProvider, CategoriesContext } from "./CategoriesProvider";
+export { CategoriesProvider, CategoriesContext } from './CategoriesProvider';

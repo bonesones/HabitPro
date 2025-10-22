@@ -1,2 +1,2 @@
-export { DashboardPage } from "./DashboardPage";
-export { Header } from "./Header/Header";
+export { DashboardPage } from './DashboardPage';
+export { Header } from './Header/Header';
