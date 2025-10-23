@@ -18,7 +18,7 @@ export const HabitProgressBar: React.FC<{
         <span className='text-gray-600'>Progress</span>
 
         <span className='font-medium'>
-          {goal}/{progress}
+          {progress}/{goal}
         </span>
       </div>
 
