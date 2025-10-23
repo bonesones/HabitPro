@@ -1,9 +1,9 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-import { FlatCompat } from "@eslint/eslintrc";
-import importPlugin from "eslint-plugin-import";
-import multilineSpacingPlugin from "eslint-plugin-multiline-spacing";
+import { FlatCompat } from '@eslint/eslintrc';
+import importPlugin from 'eslint-plugin-import';
+import multilineSpacingPlugin from 'eslint-plugin-multiline-spacing';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -12,87 +12,98 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
 
   {
     ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'build/**',
+      'next-env.d.ts',
     ],
     plugins: {
       import: importPlugin,
-      "multiline-spacing": multilineSpacingPlugin,
+      'multiline-spacing': multilineSpacingPlugin,
     },
     settings: {
-      "import/resolver": {
+      'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
         },
       },
     },
     rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "error",
+      '@typescript-eslint/no-unused-vars': [
+        'error',
         { ignoreRestSiblings: true },
       ],
 
-      "import/no-duplicates": "error",
+      'import/no-duplicates': 'error',
 
-      "no-console": ["error", { allow: ["warn", "error"] }],
+      'no-console': ['error', { allow: ['warn', 'error'] }],
 
-      curly: "error",
+      curly: 'error',
 
-      "arrow-body-style": ["error", "as-needed"],
+      'arrow-body-style': ['error', 'as-needed'],
 
-      "multiline-spacing/multiline-padding": "error",
+      'multiline-spacing/multiline-padding': 'error',
 
-      "import/order": [
-        "error",
+      'import/order': [
+        'error',
 
         {
           alphabetize: {
-            order: "asc",
+            order: 'asc',
             caseInsensitive: false,
           },
-          "newlines-between": "always",
-          groups: ["builtin", "external", "internal", "parent", "sibling"],
+          'newlines-between': 'always',
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling'],
           pathGroups: [
             {
-              pattern: "@/app/**",
-              group: "internal",
-              position: "before",
+              pattern: '@/app/**',
+              group: 'internal',
+              position: 'before',
             },
 
             {
-              pattern: "@/pages/**",
-              group: "internal",
-              position: "before",
+              pattern: '@/pages/**',
+              group: 'internal',
+              position: 'before',
             },
 
             {
-              pattern: "@/shared/**",
-              group: "internal",
-              position: "before",
+              pattern: '@/shared/**',
+              group: 'internal',
+              position: 'before',
             },
 
             {
-              pattern: "../*/**",
-              group: "parent",
-              position: "after",
+              pattern: '../*/**',
+              group: 'parent',
+              position: 'after',
             },
 
             {
-              pattern: "./*/**",
-              group: "sibling",
-              position: "after",
+              pattern: './*/**',
+              group: 'sibling',
+              position: 'after',
             },
           ],
         },
       ],
     },
+    overrides: [
+      {
+        files: ['src/shared/generated/**/*.{js,ts}'], // Путь к файлам в папке generated
+        rules: Object.fromEntries(
+          Object.keys(require('eslint/conf/eslint-recommended')).map(rule => [
+            rule,
+            'off', // Отключаем все правила для этих файлов
+          ]),
+        ),
+      },
+    ],
   },
 ];
 
