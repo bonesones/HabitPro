@@ -93,17 +93,6 @@ const eslintConfig = [
         },
       ],
     },
-    overrides: [
-      {
-        files: ['src/shared/generated/**/*.{js,ts}'], // Путь к файлам в папке generated
-        rules: Object.fromEntries(
-          Object.keys(require('eslint/conf/eslint-recommended')).map(rule => [
-            rule,
-            'off', // Отключаем все правила для этих файлов
-          ]),
-        ),
-      },
-    ],
   },
 ];
 
