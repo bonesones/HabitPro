@@ -24,7 +24,12 @@ export async function GET(req: NextRequest) {
       name: true,
       categoryId: true,
       goal: true,
+      currentStreak: true,
+      longestStreak: true,
       logs: {
+        orderBy: {
+          date: 'desc',
+        },
         select: {
           date: true,
           done: true,
@@ -68,6 +73,8 @@ export async function GET(req: NextRequest) {
       id: true,
       name: true,
       goal: true,
+      currentStreak: true,
+      longestStreak: true,
       category: {
         select: {
           id: true,
@@ -75,6 +82,9 @@ export async function GET(req: NextRequest) {
         },
       },
       logs: {
+        orderBy: {
+          date: 'desc',
+        },
         select: {
           date: true,
           done: true,

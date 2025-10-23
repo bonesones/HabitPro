@@ -1,7 +1,10 @@
 import type { Habit as PrismaHabit, Category } from '@/shared/generated/prisma';
 import type { HabitLog } from '@/shared/types';
 
-export type Habit = Pick<PrismaHabit, 'id' | 'name' | 'goal'> & {
+export type Habit = Pick<
+  PrismaHabit,
+  'id' | 'name' | 'goal' | 'currentStreak' | 'longestStreak'
+> & {
   logs: HabitLog[];
   category: Pick<Category, 'id' | 'name'>;
 };

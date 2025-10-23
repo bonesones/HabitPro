@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import { useSession } from '@/shared/lib';
-import { Spinner } from '@/shared/ui';
+import { LoadingFullscreen } from '@/shared/ui';
 
 import { useHabitsStore } from '@/entities/habit/model';
 import { fetchHabits } from '@/entities/habit/model/actions';
@@ -27,11 +27,7 @@ export const DashboardPage = () => {
   }
 
   if (isPending || isLoading) {
-    return (
-      <div className='flex justify-center items-center h-[calc(100vh-64px)]'>
-        <Spinner className='bg-blue-500 ' />
-      </div>
-    );
+    return <LoadingFullscreen />;
   }
 
   return (

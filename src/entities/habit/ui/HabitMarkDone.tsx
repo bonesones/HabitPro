@@ -1,5 +1,7 @@
+import dayjs from 'dayjs';
+
 import { CheckMark } from '@/shared/icons';
-import { Spinner } from '@/shared/ui';
+import { Loading } from '@/shared/ui';
 
 import { useHabitsStore, type Habit } from '@/entities/habit/model';
 
@@ -11,12 +13,13 @@ export const HabitMarkDone: React.FC<{
     state.isHabitUpdating(habit.id),
   );
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = dayjs().startOf('day');
+  const doneLogs = habit.logs.filter(log => log.done);
 
-  const isDoneToday = habit.logs.some(
-    log => log.done && new Date(log.date).getTime() === today.getTime(),
-  );
+  const lastDoneLogDate =
+    doneLogs.length > 0 ? dayjs(doneLogs[0].date).startOf('day') : null;
+
+  const isDoneToday = lastDoneLogDate ? today.isSame(lastDoneLogDate) : false;
 
   return isDoneToday ? (
     <div className='flex gap-2 items-center'>
@@ -30,7 +33,7 @@ export const HabitMarkDone: React.FC<{
       className='bg-lime-500 rounded-md w-24 h-10 text-white cursor-pointer'
       onClick={onClick}
     >
-      {isHabitUpdating ? <Spinner className='bg-white' /> : 'Mark done'}
+      {isHabitUpdating ? <Loading className='bg-white' /> : 'Mark done'}
     </button>
   );
 };

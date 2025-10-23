@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from '@/shared/lib';
+import { calculateStreak, prisma } from '@/shared/lib';
 import { auth } from '@/shared/lib/auth.server';
 
 export async function PATCH(
@@ -58,15 +58,12 @@ export async function PATCH(
     },
     select: {
       id: true,
-      name: true,
-      category: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      goal: true,
+      currentStreak: true,
+      longestStreak: true,
       logs: {
+        orderBy: {
+          date: 'desc',
+        },
         select: {
           date: true,
           done: true,
@@ -84,8 +81,51 @@ export async function PATCH(
     );
   }
 
+  const { currentStreak, longestStreak } = calculateStreak(habit.logs);
+
+  const updatedHabit = await prisma.habit.update({
+    where: {
+      id: habit.id,
+    },
+    data: {
+      currentStreak,
+      longestStreak,
+    },
+    select: {
+      id: true,
+      name: true,
+      goal: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      currentStreak: true,
+      longestStreak: true,
+      logs: {
+        orderBy: {
+          date: 'desc',
+        },
+        select: {
+          date: true,
+          done: true,
+        },
+      },
+    },
+  });
+
+  if (!updatedHabit) {
+    return NextResponse.json(
+      { success: false, message: 'Failed to update habit' },
+      {
+        status: 500,
+      },
+    );
+  }
+
   return NextResponse.json(
-    { success: true, data: habit },
+    { success: true, data: updatedHabit },
     {
       status: 200,
     },

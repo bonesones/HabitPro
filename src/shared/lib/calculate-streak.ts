@@ -1,38 +1,50 @@
-import { HabitLog } from '../types/api';
+import dayjs from 'dayjs';
 
-export const calculateStreak = (logs: HabitLog[]) => {
-  const mappedLogs = logs.map(log => ({ ...log, date: new Date(log.date) }));
+import { HabitLog } from '../types';
 
-  const sortedLogs = mappedLogs.sort(
-    (a, b) => b.date.getTime() - a.date.getTime(),
-  );
+export const calculateStreak = (habitLogs: HabitLog[]) => {
+  const completionDates = habitLogs.filter(log => log.done);
 
-  let streak = 0;
-
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-  const todayLog = sortedLogs.find(log => isSameDay(log.date, currentDate));
-
-  const startDate = new Date(currentDate);
-
-  if (!todayLog?.done) {
-    startDate.setDate(startDate.getDate() - 1);
+  if (completionDates.length === 0) {
+    return {
+      currentStreak: 0,
+      longestStreak: 0,
+    };
   }
 
-  for (const log of sortedLogs) {
-    const logDate = new Date(log.date);
-    if (isSameDay(logDate, startDate) && log.done) {
-      streak++;
+  let currentStreak = 1;
+  let maxStreak = 1;
 
-      startDate.setDate(startDate.getDate() - 1);
-    } else if (logDate < startDate) {
-      if (!log.done) {
-        break;
-      }
+  let prevDate = dayjs(completionDates[0].date).startOf('day');
+
+  for (let i = 1; i < completionDates.length; i++) {
+    const date = dayjs(completionDates[i].date).startOf('day');
+    const diff = prevDate.diff(date, 'day');
+
+    if (diff === 1) {
+      currentStreak++;
+    } else {
+      maxStreak = Math.max(maxStreak, currentStreak);
     }
+
+    prevDate = date;
   }
 
-  return streak;
-};
+  const today = dayjs().startOf('day');
+  const lastCompletionDate = dayjs(completionDates[0].date).startOf('day');
 
-const isSameDay = (a: Date, b: Date) => a.getTime() === b.getTime();
+  const daysSinceLastCompletion = today.diff(lastCompletionDate, 'day');
+
+  let current = 0;
+
+  if (daysSinceLastCompletion <= 1) {
+    current = currentStreak;
+  } else {
+    current = 0;
+  }
+
+  return {
+    currentStreak: current,
+    longestStreak: maxStreak,
+  };
+};

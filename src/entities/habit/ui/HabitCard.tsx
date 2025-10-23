@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
 import Link from 'next/link';
+import React from 'react';
 
-import { calculateStreak } from '@/shared/lib';
 import { Container } from '@/shared/ui';
 
 import { markHabitDone } from '../model/actions';
@@ -9,21 +10,18 @@ import { Habit } from '../model/types';
 import { HabitMarkDone } from './HabitMarkDone';
 import { HabitProgressBar } from './HabitProgressBar';
 
-export const HabitCard: React.FC<{ habit: Habit }> = ({ habit }) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+export const HabitCard: React.FC<{ habit: Habit }> = React.memo(({ habit }) => {
+  const today = dayjs().startOf('day');
+  const weekAgo = dayjs().subtract(7, 'day').startOf('day');
 
-  const weekAgo = new Date();
-  weekAgo.setDate(today.getDate() - 7);
-
-  const countDoneThisWeek = habit.logs.filter(
-    log =>
+  const countDoneThisWeek = habit.logs.filter(log => {
+    const date = dayjs(log.date).startOf('day');
+    return (
       log.done &&
-      new Date(log.date).getTime() >= weekAgo.getTime() &&
-      new Date(log.date).getTime() <= today.getTime(),
-  ).length;
-
-  const streak = calculateStreak(habit.logs);
+      (date.isSame(weekAgo) || date.isAfter(weekAgo)) &&
+      (date.isSame(today) || date.isBefore(today))
+    );
+  }).length;
 
   const handleClickDone = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -41,11 +39,15 @@ export const HabitCard: React.FC<{ habit: Habit }> = ({ habit }) => {
         <HabitProgressBar progress={countDoneThisWeek} goal={habit.goal} />
 
         <div className='flex justify-between items-center'>
-          <span className='text-gray-600'>🔥 {streak} day streak</span>
+          <span className='text-gray-600'>
+            🔥 {habit.currentStreak} day streak
+          </span>
 
           <HabitMarkDone habit={habit} onClick={handleClickDone} />
         </div>
       </Container>
     </Link>
   );
-};
+});
+
+HabitCard.displayName = 'HabitCard';

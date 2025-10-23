@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { signIn } from '@/shared/lib';
-import { Button, Input, Spinner } from '@/shared/ui';
+import { Button, Input, Loading } from '@/shared/ui';
 
 export const LoginForm: React.FC<{
   onChangeMode: (mode: 'login' | 'signup') => void;
@@ -66,7 +66,7 @@ export const LoginForm: React.FC<{
       <Button type='submit' className='mt-4' disabled={loading}>
         {loading ? (
           <div className='h-5 flex items-center justify-center'>
-            <Spinner className='bg-white' />
+            <Loading className='bg-white' />
           </div>
         ) : (
           'Login'

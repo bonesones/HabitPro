@@ -5,6 +5,10 @@ import { Habit, NextHabit } from './types';
 
 export const fetchHabits = async () => {
   const store = useHabitsStore.getState();
+
+  if (store.habits.length !== 0) {
+    return;
+  }
   store.setLoading(true);
 
   try {
@@ -25,6 +29,16 @@ export const fetchHabits = async () => {
 
 export const fetchHabit = async (habitId: number) => {
   const store = useHabitsStore.getState();
+
+  const storedHabit = store.getHabit(habitId);
+
+  if (storedHabit) {
+    store.setHabit(storedHabit);
+    store.setInitialized(true);
+    return;
+  }
+
+  store.setInitialized(false);
   store.setLoading(true);
 
   try {
@@ -39,6 +53,7 @@ export const fetchHabit = async (habitId: number) => {
   } catch (error) {
     store.setError(error instanceof Error ? error.message : 'Unknown error');
   } finally {
+    store.setInitialized(true);
     store.setLoading(false);
   }
 };

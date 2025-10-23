@@ -36,6 +36,8 @@ model Habit {
   name String
   goal Int
   description String?
+  currentStreak Int @default(0)
+  longestStreak Int @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId String

@@ -17,9 +17,7 @@ export const HabitProgressBar: React.FC<{
       <div className='flex justify-between'>
         <span className='text-gray-600'>Progress</span>
 
-        <span className='font-medium'>
-          {progress}/{goal}
-        </span>
+        <span className='font-medium'>{goal / progress}</span>
       </div>
 
       <progress value={progress} max={goal} className={className}></progress>

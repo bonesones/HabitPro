@@ -36,6 +36,8 @@ export async function GET(
     select: {
       id: true,
       name: true,
+      currentStreak: true,
+      longestStreak: true,
       category: {
         select: {
           id: true,
@@ -44,6 +46,9 @@ export async function GET(
       },
       goal: true,
       logs: {
+        orderBy: {
+          date: 'desc',
+        },
         select: {
           date: true,
           done: true,

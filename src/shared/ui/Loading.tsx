@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-export const Spinner: React.FC<{
+export const Loading: React.FC<{
   className?: string;
 }> = ({ className: _className }) => {
   const className = clsx('w-2 h-2 rounded-full animate-bounce', _className);
