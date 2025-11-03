@@ -12,7 +12,7 @@ export const calculateStreak = (habitLogs: HabitLog[]) => {
     };
   }
 
-  let currentStreak = 1;
+  let running = 1;
   let maxStreak = 1;
 
   let prevDate = dayjs(completionDates[0].date).startOf('day');
@@ -22,9 +22,10 @@ export const calculateStreak = (habitLogs: HabitLog[]) => {
     const diff = prevDate.diff(date, 'day');
 
     if (diff === 1) {
-      currentStreak++;
+      running++;
     } else {
-      maxStreak = Math.max(maxStreak, currentStreak);
+      maxStreak = Math.max(maxStreak, running);
+      running = 1;
     }
 
     prevDate = date;
@@ -35,16 +36,29 @@ export const calculateStreak = (habitLogs: HabitLog[]) => {
 
   const daysSinceLastCompletion = today.diff(lastCompletionDate, 'day');
 
-  let current = 0;
+  let currentStreak = 0;
 
-  if (daysSinceLastCompletion <= 1) {
-    current = currentStreak;
+  if (daysSinceLastCompletion > 1) {
+    currentStreak = 0;
   } else {
-    current = 0;
+    currentStreak = 1;
+    let prevForCurrent = lastCompletionDate;
+
+    for (let i = 1; i < completionDates.length; i++) {
+      const date = dayjs(completionDates[i].date).startOf('day');
+      const diff = prevForCurrent.diff(date, 'day');
+
+      if (diff === 1) {
+        currentStreak++;
+        prevForCurrent = date;
+      } else {
+        break;
+      }
+    }
   }
 
   return {
-    currentStreak: current,
+    currentStreak: currentStreak,
     longestStreak: maxStreak,
   };
 };
